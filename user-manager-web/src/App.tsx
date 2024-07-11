@@ -1,21 +1,19 @@
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { MantineProvider } from '@mantine/core';
-import { persistor, store } from './store';
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { BrowserRouter } from "react-router-dom";
+import { persistor, store } from "./store";
+import { createStyles, MantineProvider } from "@mantine/core";
 
 const App = () => {
+  const { classes } = useStyles();
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <MantineProvider>
           <BrowserRouter>
-            <div
-              style={{
-                backgroundImage:
-                  'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(35,51,41,1) 0%, rgba(99,212,113,1) 100%)',
-              }}>
-              <p>sdads</p>
+            <div className={classes.mainContainer}>
+              <p>fff</p>
             </div>
           </BrowserRouter>
         </MantineProvider>
@@ -23,4 +21,14 @@ const App = () => {
     </Provider>
   );
 };
+
+const useStyles = createStyles(() => ({
+  mainContainer: {
+    display: "flex",
+    height: "100vh",
+    margin: "0px",
+    backgroundColor: "red",
+  },
+}));
+
 export default App;
