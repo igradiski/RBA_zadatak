@@ -55,11 +55,11 @@ public class JwtUtils {
 
 	public boolean validateJwtToken(String authToken) {
 		try {
+			log.info("Token: "+authToken);
 			Jwts.parserBuilder()
-					.setSigningKey(jwtSecret)
+					.setSigningKey(getSigningKey())
 					.build()
 					.parseClaimsJws(authToken);
-
 			return true;
 		} catch (Exception e) {
 			log.error("Invalid JWT token: {}", e.getMessage());

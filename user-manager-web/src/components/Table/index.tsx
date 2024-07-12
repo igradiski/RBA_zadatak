@@ -3,8 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CrudButtons } from './crudButtons';
 import dayjs from 'dayjs';
-import { CustomCellType } from '../../types/CustomCellType';
 import themeColors from '../../theme';
+import { CustomCellType } from '../../types/CustomCellType';
 
 type CustomTableProps = {
   tableHeaders: string[];
@@ -25,7 +25,7 @@ export const CustomTable = (props: CustomTableProps) => {
         style={{
           color: 'black',
           textAlign: 'center',
-          backgroundColor: themeColors.theme.colors.forest,
+          backgroundColor: 'gainsboro',
           borderTopLeftRadius: index === 0 ? '15px' : '0px',
           borderTopRightRadius:
             index + 1 === props.tableHeaders.length ? '15px' : '0px',
@@ -43,12 +43,14 @@ export const CustomTable = (props: CustomTableProps) => {
   ) => {
     var data: string = row[rowData as keyof typeof row];
     var tableData: string = data.length > 20 ? data.substring(0, 19) : data;
+
     return (
       <th
         style={{
           borderBottomLeftRadius: index === 0 && lastRow ? '15px' : '0px',
           borderBottomRightRadius:
-            lastRow && index === props.tableHeaders.length ? '15px' : '0px',
+            lastRow && index + 1 === props.tableHeaders.length ? '15px' : '0px',
+          textAlign: 'center',
         }}
         key={index}>
         {tableData}
@@ -191,7 +193,7 @@ export const CustomTable = (props: CustomTableProps) => {
 
 const useStyles = createStyles(theme => ({
   table: {
-    backgroundColor: themeColors.theme.colors.tableGreen,
+    backgroundColor: theme.colors.indigo[1],
     borderRadius: '20px',
     marginBottom: '10px',
   },

@@ -6,6 +6,8 @@ import { createStyles, MantineProvider } from '@mantine/core';
 import { LoginForm } from './forms/LoginForm/LoginForm';
 import { RegisterForm } from './forms/RegisterForm/RegisterForm';
 import '../src/i18/i18n';
+import { UserManagementScreen } from './screens/UserManagementScreen';
+import { ProtectedRoute } from './route/protectedRoute';
 
 const App = () => {
   const { classes } = useStyles();
@@ -15,16 +17,14 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <MantineProvider>
           <BrowserRouter>
-            <div
-              style={{
-                backgroundImage:
-                  'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(35,51,41,1) 0%, rgba(99,212,113,1) 100%)',
-              }}
-              className={classes.mainContainer}>
+            <div className={classes.mainContainer}>
               <Routes>
                 <Route path="/">
                   <Route index element={<LoginForm />} />
                   <Route path="register" element={<RegisterForm />} />
+                </Route>
+                <Route path="/userManagement" element={<ProtectedRoute />}>
+                  <Route index element={<UserManagementScreen />} />
                 </Route>
               </Routes>
             </div>
@@ -35,10 +35,11 @@ const App = () => {
   );
 };
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles(theme => ({
   mainContainer: {
     display: 'flex',
     height: '100vh',
+    background: `linear-gradient(135deg, ${theme.colors.indigo[6]}, ${theme.colors.cyan[4]})`,
   },
 }));
 

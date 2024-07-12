@@ -6,7 +6,8 @@
       "modal":{
          "ok":"U redu",
          "cancel":"Odustani"
-      }
+      },
+      "logout":"Odjava"
    },
    "loginScreen":{
       "title":"Prijava",
@@ -36,131 +37,21 @@
       "registerSuccessfull":"Korisnik je uspješno registriran!",
       "registerFailed":"Greška kod registracije korisnika!"
    },
-   "vine":{
-      "stepInsert":"Unos vinove loze",
-      "stepCodebook":"Pregled vinove loze",
-      "titleInsert":"Unos vinove loze",
-      "titleUpdate":"Ažuriranje vinove loze",
-      "name":"Naziv:",
-      "description":"Opis:",
-      "title":"Pregled vinove loze",
-      "sucessfullInsert":"Unos loze je uspješan!",
-      "sucessfullInsertTitle":"Uspješan unos",
-      "errorInsert":"Unos nije uspio!",
-      "errorInsertTitle":"Greška kod unosa",
-      "sucessfullUpdate":"Ažuriranje loze je uspješno!",
-      "sucessfullUpdateTitle":"Uspješno ažuriranje",
-      "errorUpdate":"Ažuriranje nije uspjelo!",
-      "errorUpdateTitle":"Greška kod ažuriranja",
-      "brisanjeModalTitle":"Brisanje vinove loze",
-      "brisanjeModalContent":"Jeste li sigurni da želite obrisati vinovu lozu",
-      "sucessfullDelete":"Brisanje loze uspjelo!",
-      "sucessfullDeleteTitle":"Uspješno brisanje",
-      "errorDelete":"Brisanje loze nije uspjelo!",
-      "errorDeleteTitle":"Greška kod brisanja",
+   "userManagementScreen":{
+      "title":"Pregled korisnika i kartica",
       "table":{
-         "name":"Naziv",
-         "description":"Opis",
-         "date":"Datum"
-      }
-   },
-   "protectiveAgent":{
-      "stepInsert":"Unos zaštitnog sredstva",
-      "stepCodebook":"Pregled zaštitnih sredstava",
-      "titleInsert":"Zaštitno sredstvo",
-      "titleUpdate":"Ažuriranje zaštitnog sredstva",
-      "composition":"Sastav",
-      "typeOfAction":"Uporaba sredstva",
-      "concentration":"Koncentracija %",
-      "waiting":"Karenca",
-      "agentType":"Tip sredstva",
-      "registrationNumber":"Registracijski broj",
-      "formulation":"Formulacija",
-      "usage":"Područje primjene",
-      "dosageOn100":"Doza na 100 L",
-      "typeOfMedium":"Medij sredstva",
-      "name":"Naziv:",
-      "description":"Opis:",
-      "distributor":"Distributer",
-      "measuringUnit":"Mjerna jedinica",
-      "sucessfullInsert":"Unos zaštitnog sredstva je uspješan!",
-      "sucessfullInsertTitle":"Uspješan unos",
-      "errorInsert":"Unos nije uspio!",
-      "errorInsertTitle":"Greška kod unosa",
-      "sucessfullUpdate":"Ažuriranje zaštitnog sredstva je uspješno!",
-      "sucessfullUpdateTitle":"Uspješno ažuriranje",
-      "errorUpdate":"Ažuriranje nije uspjelo!",
-      "errorUpdateTitle":"Greška kod ažuriranja",
-      "title":"Pregled zaštitnih sredstava",
-      "deleteModalTitle":"Brisanje zaštitnog sredstva",
-      "deleteModalContent":"Jeste li sigurni da želite obrisati zaštitno sredstvo",
-      "table":{
-         "name":"Naziv",
-         "description":"Opis",
-         "date":"Datum",
-         "composition":"Sastav",
-         "registrationNumber":"Registracijski broj",
-         "formulation":"Formulacija",
-         "typeOfAction":"Uporaba sredstva",
-         "usage":"Područje primjene",
-         "concentration":"Koncentracija",
-         "dosageOn100":"Doza na 100 L",
-         "waiting":"Karenca",
-         "measuringUnit":"Mjerna jedinica",
-         "agentType":"Tip sredstva",
-         "distributor":"Distributer"
-      }
-   },
-   "diseases":{
-      "stepInsert":"Unos bolesti",
-      "stepCodebook":"Pregled bolesti",
-      "titleInsert":"Unos bolesti",
-      "titleUpdate":"Ažuriranje bolesti",
-      "name":"Naziv:",
-      "description":"Opis:",
-      "sucessfullInsert":"Unos bolesti je uspješan!",
-      "sucessfullInsertTitle":"Uspješan unos",
-      "errorInsert":"Unos nije uspio!",
-      "errorInsertTitle":"Greška kod unosa",
-      "sucessfullUpdate":"Ažuriranje bolest je uspješno!",
-      "sucessfullUpdateTitle":"Uspješno ažuriranje",
-      "errorUpdate":"Ažuriranje nije uspjelo!",
-      "errorUpdateTitle":"Greška kod ažuriranja",
-      "deleteModalTitle":"Brisanje bolesti",
-      "deleteModalContent":"Jeste li sigurni da želite obrisati bolest",
-      "title":"Pregled bolesti",
-      "table":{
-         "name":"Naziv",
-         "description":"Opis",
-         "date":"Datum",
-         "phenophases":"Fenofaze"
-      }    
-   },
-   "diesasesAgents":{
-      "title":"Bolesti i sredstva",
-      "disease":"Bolest",
-      "agent":"Sredstvo",
-      "add":"Dodaj sredstvo za bolest",
-      "diseases":"Bolesti",
-      "agents":"Zaštitna sredstva",
-      "sucessfullInsertTitle":"Uspješan unos",
-      "sucessfullInsert":"Zaštitno sredstvo i bolest uspješno povezani",
-      "errorInsertTitle":"Greška kod unosa",
-      "errorInsert":"Greška kod povezinja zaštitnog sredstva i bolesti"
-   },
-   "dropzone":{
-      "dragOrSelect":"Povucite slike ili kliknite za odabir slika",
-      "attach":"Učitajte slike veličine do 2 MB"
-   },
-      "navigation":{
-      "logout":"Odjava",
-      "codebook":"Šifrarnici",
-      "users":"Korisnici",
-      "codebookNav":{
-         "vine":"Vinova loza",
-         "protectiveAgent":"Zaštitna sredstva",
-         "diseases":"Bolesti",
-         "diesasesAgents":"Bolesti i sredstva"
+         "name":"Ime",
+         "lastName":"Prezime",
+         "OIB":"OIB",
+         "status":"status"
+      },
+      "addPerson":"Dodaj novu osobu",
+      "modal":{
+         "title":"Unos osobe",
+         "name":"Ime",
+         "lastName":"Prezime",
+         "OIB":"OIB",
+         "status":"status"
       }
    }
 }

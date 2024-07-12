@@ -48,11 +48,10 @@ export const LoginForm: FunctionComponent = () => {
   });
 
   const handleLogin: SubmitHandler<UserData> = async data => {
-    console.log('user login');
     await dispatch(handleUserLogin(data))
       .unwrap()
       .then(() => {
-        navigate('/menu');
+        navigate('/userManagement');
       })
       .catch((reason: any) => {
         console.log(reason);

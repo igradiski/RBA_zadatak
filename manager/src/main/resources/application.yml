@@ -62,5 +62,5 @@ swagger:
 
 manager:
   refTokDuration: 360000
-  jwtSecret: 9a4fu2c03d3b7a1e6f14c8a0b3f267d8b1d4e97f3c8a9d2b5f8e3a9c8b5f6v8a3d9
+  jwtSecret: 9a4fu2c03d3b7a1e6f14c8a0b3f267d8b1d4e97f3c8a9d2b5f8e3a9c8b5f6v8a3d99a4fu2c03d3b7a1e6f14c8a0b3f267d8b1d4e97f3c8a9d2b5f8e3a9c8b5f6v8a3d9
   jwtExpiration: 600000
