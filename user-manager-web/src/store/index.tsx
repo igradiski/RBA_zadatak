@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import storage from "redux-persist/lib/storage";
-import persistReducer from "redux-persist/lib/persistReducer";
-import { combineReducers } from "redux";
-import { useDispatch } from "react-redux";
-import loggerMiddleware, { logger } from "redux-logger";
-import storageSession from "reduxjs-toolkit-persist/lib/storage/session";
+import { configureStore } from '@reduxjs/toolkit';
+import storage from 'redux-persist/lib/storage';
+import persistReducer from 'redux-persist/lib/persistReducer';
+import { combineReducers } from 'redux';
+import { useDispatch } from 'react-redux';
+import loggerMiddleware, { logger } from 'redux-logger';
+import storageSession from 'reduxjs-toolkit-persist/lib/storage/session';
 import {
   FLUSH,
   PAUSE,
@@ -13,25 +13,29 @@ import {
   REGISTER,
   REHYDRATE,
   persistStore,
-} from "redux-persist";
+} from 'redux-persist';
+import { userReducer } from './user';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   version: 1,
   storage: storageSession,
-  whitelist: ["user"],
+  whitelist: ['user'],
 };
 
 const userPersistConfig = {
-  key: "user",
+  key: 'user',
   storage: storageSession,
 };
 
-const rootReducer = persistReducer(persistConfig, combineReducers({}));
+const rootReducer = persistReducer(
+  persistConfig,
+  combineReducers({ user: persistReducer(userPersistConfig, userReducer) }),
+);
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
