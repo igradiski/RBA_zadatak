@@ -10,7 +10,7 @@ public record PersonDto(
         @Size(min = 11, message = "OIB is too short!")
         @Size(max = 11, message = "OIB is too long!")
         String OIB ,
-        @NotBlank(message = "Status cannot be empty!") String status) {
+        String status) {
 
     public PersonDto(String name, String lastName, String OIB, String status) {
         this.name = name;

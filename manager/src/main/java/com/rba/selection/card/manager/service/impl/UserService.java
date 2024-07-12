@@ -1,5 +1,6 @@
 package com.rba.selection.card.manager.service.impl;
 
+import com.rba.selection.card.manager.domain.Person;
 import com.rba.selection.card.manager.domain.RefreshToken;
 import com.rba.selection.card.manager.domain.User;
 import com.rba.selection.card.manager.domain.dto.UserDto;
@@ -8,6 +9,7 @@ import com.rba.selection.card.manager.security.jwt.JwtUtils;
 import com.rba.selection.card.manager.security.jwt.payload.response.JwtResponseToken;
 import com.rba.selection.card.manager.security.servicesImpl.UserDetailsSecurityImpl;
 import com.rba.selection.card.manager.service.exception.ObjectAlreadyExists;
+import com.rba.selection.card.manager.service.exception.PostFailureException;
 import com.rba.selection.card.manager.service.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +54,16 @@ public class UserService {
         if (userRepository.existsByUsername(userDto.username())) {
             throw new ObjectAlreadyExists("User with this username already exists!");
         }
-        User newUser = userMapper.userDtoToUser(userDto);
-        userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User created!");
+        try{
+            User newUser = userMapper.userDtoToUser(userDto);
+            User savedUser = userRepository.save(newUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toDto(savedUser));
+        }catch (Exception e){
+            log.error("Error inserting user");
+            throw new PostFailureException("Error inserting user");
+        }
+
+
     }
 
     public ResponseEntity<?> loginUser(UserDto userDto) {
