@@ -47,6 +47,7 @@
          "OIB":"OIB",
          "status":"status"
       },
+      "OIB":"OIB",
       "addPerson":"Dodaj novu osobu",
       "modal":{
          "title":"Unos osobe",
@@ -60,7 +61,15 @@
          "insertSuccessfullContent":"Osoba je uspješno unesena!",
          "deletePersonModalTitle":"Brisanje sobe",
          "deletePersonModalContent":"Jeste li sigurni da želite obrisati osobu?"
-
-      }
+      },
+      "findPerson":"Pretraživanje osoba",
+      "deletePerson":"Brisanje osoba",
+      "findPersonButton":"Pronađi osobu"
+   },
+   "personDataComponent":{
+      "name":"Ime",
+      "lastName":"Prezime",
+      "OIB":"OIB",
+      "status":"Status"
    }
 }

@@ -8,13 +8,18 @@ import { CustomCellType } from '../../types/CustomCellType';
 import { CustomButtonConfirm } from '../../components/FormButton';
 import { PersonModal } from './insertModal';
 import { PageableSpring } from '../../types/Pageable';
-import { fetchPersonsThunk } from '../../store/person';
+import { fetchPersonByOibThunk, fetchPersonsThunk } from '../../store/person';
 import { PersonData } from '../../types/PersonTypes';
 import { useSelector } from 'react-redux';
 import { SpringPageableType } from '../../types/SpringPageableType';
 import ConfirmationModal from '../../components/Modals/ConfirmationModal';
 import { CustomPagination } from '../../components/Pagination';
 import { PageSizeSelect } from '../../components/PageSizeSelect';
+import { CustomInput } from '../../components/Input';
+import { Controller, useForm } from 'react-hook-form';
+import { object, string } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { PersonDataComponent } from '../../components/PersonDataComponent';
 
 export const UserManagementScreen: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -29,6 +34,9 @@ export const UserManagementScreen: FunctionComponent = () => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
 
+  const [searchOib, setSearchOib] = useState('');
+  const [deleteOib, setDeleteOib] = useState('');
+
   useEffect(() => {
     var pageable: PageableSpring = {
       page: page - 1,
@@ -40,6 +48,10 @@ export const UserManagementScreen: FunctionComponent = () => {
 
   const personsData: PersonData[] = useSelector(
     (state: RootState) => state.person.content,
+  );
+
+  const foundPerson: PersonData = useSelector(
+    (state: RootState) => state.person.foundPerson,
   );
 
   const pageableInfo: SpringPageableType = useSelector(
@@ -94,6 +106,36 @@ export const UserManagementScreen: FunctionComponent = () => {
     setConfirmationModalVisible(false);
   };
 
+  const defaultValues = {
+    searchOib: '',
+    deleteOib: '',
+  };
+
+  const personSchema = object().shape({
+    searchOib: string().required().min(11).max(11),
+    deleteOib: string().required().min(11).max(11),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { isValid },
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: defaultValues,
+    resolver: yupResolver(personSchema),
+  });
+
+  const searchPersonByOib = async () => {
+    var oib = getValues('searchOib');
+    if (oib !== undefined && oib.length == 11) {
+      await dispatch(fetchPersonByOibThunk(oib));
+    }
+  };
+
   return (
     <div className={classes.mainContainer}>
       <div className={classes.titleContainer}>
@@ -138,6 +180,63 @@ export const UserManagementScreen: FunctionComponent = () => {
         </div>
       </div>
       <PersonModal visible={modalVisible} onCancel={closeModal} />
+      <div className={classes.personManagementContainer}>
+        <div className={classes.personFinderContainer}>
+          <h2 className={classes.subTitleText}>
+            {t('userManagementScreen.findPerson')}
+          </h2>
+          <div className={classes.searchContainer}>
+            <div style={{ width: '60%' }}>
+              <Controller
+                control={control}
+                name="searchOib"
+                shouldUnregister={true}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <CustomInput
+                    value={value}
+                    onChange={onChange}
+                    label={t('userManagementScreen.OIB')}
+                  />
+                )}
+              />
+            </div>
+            <CustomButtonConfirm
+              text={t('userManagementScreen.findPersonButton')}
+              styleValid={classes.buttonStyleSearchDelete}
+              isValid={true}
+              submit={() => {
+                searchPersonByOib();
+              }}
+            />
+          </div>
+          <PersonDataComponent person={foundPerson} />
+        </div>
+        <div className={classes.personDeleteContainer}>
+          <h2 className={classes.subTitleText}>
+            {t('userManagementScreen.deletePerson')}
+          </h2>
+          <div>
+            <Controller
+              control={control}
+              name="deleteOib"
+              shouldUnregister={true}
+              render={({
+                field: { value, onChange },
+                fieldState: { error },
+              }) => (
+                <CustomInput
+                  value={value}
+                  onChange={onChange}
+                  label={t('userManagementScreen.OIB')}
+                />
+              )}
+            />
+          </div>
+        </div>
+      </div>
       <ConfirmationModal
         content={t('userManagementScreen.modal.deletePersonModalContent')}
         onCancel={closeConfirmationModal}
@@ -206,5 +305,56 @@ const useStyles = createStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'baseline',
+  },
+  personManagementContainer: {
+    backgroundColor: 'transparent',
+    width: '100%',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  personFinderContainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  personDeleteContainer: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  subTitleText: {
+    color: themeColors.theme.colors.white,
+    fontSize: 35,
+  },
+  searchContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingLeft: themeColors.sizes.padding,
+  },
+  buttonStyleSearchDelete: {
+    width: '30%',
+    height: 40,
+    backgroundColor: 'transparent',
+    color: themeColors.theme.colors.white,
+    fontWeight: 500,
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    boxShadow: '0 0 0 0',
+    border: '1px solid black ',
+    marginRight: '20px',
+    '@media (max-width: 1200px)': {
+      width: '35%',
+      height: 50,
+      backgroundColor: 'transparent',
+      color: themeColors.theme.colors.white,
+      fontWeight: 500,
+      fontFamily: 'Roboto',
+      minWidth: '150px',
+    },
   },
 }));
