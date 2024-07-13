@@ -64,7 +64,8 @@
       },
       "findPerson":"Pretraživanje osoba",
       "deletePerson":"Brisanje osoba",
-      "findPersonButton":"Pronađi osobu"
+      "findPersonButton":"Pronađi osobu",
+      "deletePersonButton":"Obriši osobu"
    },
    "personDataComponent":{
       "name":"Ime",

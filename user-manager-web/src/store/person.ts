@@ -45,6 +45,13 @@ export const fetchPersonByOibThunk = createAsyncThunk(
   },
 );
 
+export const deletePersonByOibThunk = createAsyncThunk(
+  'person/deleteByOib',
+  async (oib: String) => {
+    return await PersonService.deletePersonByOib(oib);
+  },
+);
+
 const personSlice = createSlice({
   name: 'user',
   initialState: initialState,

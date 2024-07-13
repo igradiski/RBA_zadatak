@@ -20,6 +20,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { object, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PersonDataComponent } from '../../components/PersonDataComponent';
+import { clearUser } from '../../store/user';
 
 export const UserManagementScreen: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -136,13 +137,19 @@ export const UserManagementScreen: FunctionComponent = () => {
     }
   };
 
+  const deletePersonByOib = async () => {};
+
   return (
     <div className={classes.mainContainer}>
       <div className={classes.titleContainer}>
         <h1 style={{ paddingLeft: '10px' }} className={classes.titleText}>
           {t('userManagementScreen.title')}
         </h1>
-        <p style={{ color: 'white', paddingRight: '10px' }}>
+        <p
+          onClick={async () => {
+            await dispatch(clearUser());
+          }}
+          style={{ color: 'white', paddingRight: '10px' }}>
           {t('common.logout')}
         </p>
       </div>
@@ -218,21 +225,31 @@ export const UserManagementScreen: FunctionComponent = () => {
           <h2 className={classes.subTitleText}>
             {t('userManagementScreen.deletePerson')}
           </h2>
-          <div>
-            <Controller
-              control={control}
-              name="deleteOib"
-              shouldUnregister={true}
-              render={({
-                field: { value, onChange },
-                fieldState: { error },
-              }) => (
-                <CustomInput
-                  value={value}
-                  onChange={onChange}
-                  label={t('userManagementScreen.OIB')}
-                />
-              )}
+          <div className={classes.searchContainer}>
+            <div style={{ width: '60%' }}>
+              <Controller
+                control={control}
+                name="deleteOib"
+                shouldUnregister={true}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <CustomInput
+                    value={value}
+                    onChange={onChange}
+                    label={t('userManagementScreen.OIB')}
+                  />
+                )}
+              />
+            </div>
+            <CustomButtonConfirm
+              text={t('userManagementScreen.deletePersonButton')}
+              styleValid={classes.buttonStyleSearchDelete}
+              isValid={true}
+              submit={() => {
+                deletePersonByOib();
+              }}
             />
           </div>
         </div>
@@ -333,7 +350,7 @@ const useStyles = createStyles(theme => ({
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    width: '100%',
+    width: '90%',
     paddingLeft: themeColors.sizes.padding,
   },
   buttonStyleSearchDelete: {
