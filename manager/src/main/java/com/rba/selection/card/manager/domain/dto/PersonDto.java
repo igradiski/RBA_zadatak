@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record PersonDto(
+        Long id,
         @NotBlank(message = "Namecannot be empty!")String name,
         @NotBlank(message = "Last name name cannot be empty!")String lastName,
         @NotBlank(message = "OIB cannot be empty!")
@@ -12,7 +13,8 @@ public record PersonDto(
         String OIB ,
         String status) {
 
-    public PersonDto(String name, String lastName, String OIB, String status) {
+    public PersonDto(Long id,String name, String lastName, String OIB, String status) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.OIB = OIB;

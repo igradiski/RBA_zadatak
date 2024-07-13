@@ -29,6 +29,7 @@ export const CustomTable = (props: CustomTableProps) => {
           borderTopLeftRadius: index === 0 ? '15px' : '0px',
           borderTopRightRadius:
             index + 1 === props.tableHeaders.length ? '15px' : '0px',
+          width: (100 % props.tableHeaders.length) + '%',
         }}>
         {t(headerValue)}
       </th>
@@ -42,7 +43,8 @@ export const CustomTable = (props: CustomTableProps) => {
     lastRow: boolean,
   ) => {
     var data: string = row[rowData as keyof typeof row];
-    var tableData: string = data.length > 20 ? data.substring(0, 19) : data;
+    var tableData: string =
+      data !== null && data.length > 20 ? data.substring(0, 19) : data;
 
     return (
       <th
@@ -51,6 +53,7 @@ export const CustomTable = (props: CustomTableProps) => {
           borderBottomRightRadius:
             lastRow && index + 1 === props.tableHeaders.length ? '15px' : '0px',
           textAlign: 'center',
+          width: (100 % props.tableHeaders.length) + '%',
         }}
         key={index}>
         {tableData}
@@ -72,6 +75,7 @@ export const CustomTable = (props: CustomTableProps) => {
           borderBottomLeftRadius: index === 0 && lastRow ? '15px' : '0px',
           borderBottomRightRadius:
             lastRow && index === props.tableHeaders.length ? '15px' : '0px',
+          width: (100 % props.tableHeaders.length) + '%',
         }}
         key={index}>
         {date}
@@ -92,6 +96,7 @@ export const CustomTable = (props: CustomTableProps) => {
           borderBottomLeftRadius: index === 0 && lastRow ? '15px' : '0px',
           borderBottomRightRadius:
             lastRow && index === props.tableHeaders.length ? '15px' : '0px',
+          width: (100 % props.tableHeaders.length) + '%',
         }}
         key={index}>
         {data?.map((item: string) => {

@@ -5,7 +5,9 @@
       "back":"Nazad",
       "modal":{
          "ok":"U redu",
-         "cancel":"Odustani"
+         "cancel":"Odustani",
+         "yes":"Da",
+         "no":"Ne"
       },
       "logout":"Odjava"
    },
@@ -51,7 +53,14 @@
          "name":"Ime",
          "lastName":"Prezime",
          "OIB":"OIB",
-         "status":"status"
+         "status":"status",
+         "insertErrorTitle":"Greška kod unosa osobe",
+         "insertErrorContent":"Nije moguće unijeti osobu prema s željenim podacima",
+         "insertSuccessfullTitle":"Usoba unesena",
+         "insertSuccessfullContent":"Osoba je uspješno unesena!",
+         "deletePersonModalTitle":"Brisanje sobe",
+         "deletePersonModalContent":"Jeste li sigurni da želite obrisati osobu?"
+
       }
    }
 }

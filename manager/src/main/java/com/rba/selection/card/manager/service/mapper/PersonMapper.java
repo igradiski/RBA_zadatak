@@ -18,7 +18,7 @@ public class PersonMapper {
 
     public PersonDto toDto(Person savedPerson) {
 
-        PersonDto dto = new PersonDto(savedPerson.getName(),savedPerson.getLastName(),savedPerson.getOIB(),savedPerson.getStatus());
+        PersonDto dto = new PersonDto(savedPerson.getId(),savedPerson.getName(),savedPerson.getLastName(),savedPerson.getOIB(),savedPerson.getStatus());
         return dto;
     }
 }

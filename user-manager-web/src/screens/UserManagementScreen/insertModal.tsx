@@ -1,18 +1,18 @@
-import { createStyles } from "@mantine/core";
-import { object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Modal } from "antd";
-import { FunctionComponent } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../store";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { CustomInput } from "../../components/Input";
-import { CustomButtonConfirm } from "../../components/FormButton";
-import themeColors from "../../theme";
-import React from "react";
-import { PersonData } from "../../types/PersonTypes";
-import { addPersonThunk } from "../../store/person";
+import { createStyles } from '@mantine/core';
+import { object, string } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Modal } from 'antd';
+import { FunctionComponent } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../store';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { CustomInput } from '../../components/Input';
+import { CustomButtonConfirm } from '../../components/FormButton';
+import themeColors from '../../theme';
+import React from 'react';
+import { PersonData } from '../../types/PersonTypes';
+import { addPersonThunk } from '../../store/person';
 
 type Props = {
   visible: boolean;
@@ -31,22 +31,23 @@ export const PersonModal: FunctionComponent<Props> = ({
   const personSchema = object().shape({
     name: string().required().min(3),
     lastName: string().required().min(3),
-    OIB: string().required().min(11),
+    OIB: string().required().min(11).max(11),
   });
 
   const defaultValues = {
-    name: "",
-    lastName: "",
-    OIB: "",
+    name: '',
+    lastName: '',
+    OIB: '',
   };
 
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isValid },
   } = useForm({
-    mode: "onChange",
-    reValidateMode: "onChange",
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: defaultValues,
     resolver: yupResolver(personSchema),
   });
@@ -54,20 +55,29 @@ export const PersonModal: FunctionComponent<Props> = ({
   //todo
   function errorModal() {
     Modal.error({
-      title: t("loginScreen.modalFailTitle"),
-      content: t("loginScreen.modalFail"),
+      title: t('userManagementScreen.modal.insertErrorTitle'),
+      content: t('userManagementScreen.modal.insertErrorContent'),
+    });
+  }
+  //todo
+  function successModal() {
+    Modal.success({
+      title: t('userManagementScreen.modal.insertSuccessfullTitle'),
+      content: t('userManagementScreen.modal.insertSuccessfullContent'),
     });
   }
 
-  const handlePersonInsert: SubmitHandler<PersonData> = async (data) => {
+  const handlePersonInsert: SubmitHandler<PersonData> = async data => {
     await dispatch(addPersonThunk(data))
       .unwrap()
       .then(() => {
         //fetch i refresh
+        successModal();
+        reset();
       })
       .catch((reason: any) => {
         console.log(reason);
-        //errorModal();
+        errorModal();
       });
   };
   return (
@@ -80,11 +90,10 @@ export const PersonModal: FunctionComponent<Props> = ({
       classNames={{
         body: classes.body,
         content: classes.content,
-      }}
-    >
+      }}>
       <div className={classes.modalContainer}>
         <div className={classes.formContainer}>
-          <h2>{t("userManagementScreen.modal.title")}</h2>
+          <h2>{t('userManagementScreen.modal.title')}</h2>
           <Controller
             control={control}
             name="name"
@@ -93,7 +102,7 @@ export const PersonModal: FunctionComponent<Props> = ({
               <CustomInput
                 value={value}
                 onChange={onChange}
-                label={t("userManagementScreen.modal.name")}
+                label={t('userManagementScreen.modal.name')}
               />
             )}
           />
@@ -105,7 +114,7 @@ export const PersonModal: FunctionComponent<Props> = ({
               <CustomInput
                 value={value}
                 onChange={onChange}
-                label={t("userManagementScreen.modal.lastName")}
+                label={t('userManagementScreen.modal.lastName')}
               />
             )}
           />
@@ -117,13 +126,13 @@ export const PersonModal: FunctionComponent<Props> = ({
               <CustomInput
                 value={value}
                 onChange={onChange}
-                label={t("userManagementScreen.modal.OIB")}
+                label={t('userManagementScreen.modal.OIB')}
               />
             )}
           />
 
           <CustomButtonConfirm
-            text={t("common.save")}
+            text={t('common.save')}
             styleValid={classes.buttonStyle}
             isValid={isValid}
             submit={handleSubmit(handlePersonInsert)}
@@ -134,30 +143,30 @@ export const PersonModal: FunctionComponent<Props> = ({
   );
 };
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(theme => ({
   modalContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   formContainer: {
-    display: "flex",
-    width: "100%",
+    display: 'flex',
+    width: '100%',
     marginTop: 10,
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px",
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
   },
   body: {
     background: `linear-gradient(135deg, ${theme.colors.indigo[6]}, ${theme.colors.cyan[4]})`,
-    padding: "0px",
-    border: "2px solid black",
+    padding: '0px',
+    border: '2px solid black',
     borderRadius: 20,
   },
   content: {
-    padding: "0px!important",
-    margin: "0px",
-    backgroundColor: "transparent!important",
+    padding: '0px!important',
+    margin: '0px',
+    backgroundColor: 'transparent!important',
   },
   buttonStyle: {},
 }));

@@ -21,6 +21,7 @@ export const PageSizeSelect = (props: SelectProps) => {
       defaultValue={'5'}
       onChange={props.handlePageSizeChange}
       data={[
+        { value: '3', label: '3' },
         { value: '5', label: '5' },
         { value: '10', label: '10' },
         { value: '25', label: '25' },

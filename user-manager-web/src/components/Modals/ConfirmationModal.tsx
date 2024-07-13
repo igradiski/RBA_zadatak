@@ -31,13 +31,12 @@ const ConfirmationModal: FunctionComponent<Props> = ({
       opened={visible}
       onClose={onCancel}
       title={title}
+      style={{ borderRadius: 0, padding: 0 }}
       classNames={{
-        root: classes.root,
         body: classes.body,
+        content: classes.content,
         header: classes.header,
-        inner: classes.inner,
-        //modal: classes.modal,
-        title: classes.title,
+        close: classes.header,
       }}>
       <div>
         <p className={classes.content}>{content}</p>
@@ -56,19 +55,21 @@ const ConfirmationModal: FunctionComponent<Props> = ({
 
 const useStyles = createStyles(theme => ({
   root: {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.indigo[6],
   },
   body: {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.indigo[6],
   },
   header: {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.indigo[6],
   },
   inner: {},
   title: { fontWeight: 700, fontFamily: 'Roboto', fontSize: 25 },
-  content: { fontWeight: 500, fontFamily: 'Roboto', fontSize: 18 },
-  modal: {
-    backgroundColor: themeColors.theme.colors.white,
+  content: {
+    fontWeight: 500,
+    fontFamily: 'Roboto',
+    fontSize: 18,
+    backgroundColor: theme.colors.indigo[6],
   },
   buttonsContainer: {
     marginTop: '2em',
@@ -80,62 +81,26 @@ const useStyles = createStyles(theme => ({
   buttonOK: {
     width: '35%',
     height: 40,
-    backgroundColor: themeColors.theme.colors.forest,
+    backgroundColor: 'transparent',
     color: themeColors.theme.colors.white,
     fontWeight: 700,
     fontFamily: 'Roboto',
     fontSize: 20,
     minWidth: '100px',
-    boxShadow:
-      'inset -5px -5px 9px black, inset 5px 5px 9px rgba(94,104,121,0.3)',
-    borderRadius: 10,
-    '&:hover': {
-      backgroundColor: themeColors.theme.colors.forest,
-      boxShadow:
-        ' inset -5px -5px 9px rgba(94,104,121,0.3), inset 5px 5px 9px black',
-      transform: 'translateY(-7px)',
-    },
-    '@media (max-width: 1200px)': {
-      width: '35%',
-      height: 50,
-      backgroundColor: themeColors.theme.colors.forest,
-      color: themeColors.theme.colors.white,
-      fontWeight: 700,
-      fontFamily: 'Roboto',
-      fontSize: 12,
-      borderRadius: 10,
-      minWidth: '150px',
-    },
+    boxShadow: '0 0 0 0',
+    border: '1px solid black ',
   },
   buttonCancel: {
     width: '35%',
     height: 40,
-    backgroundColor: themeColors.theme.colors.colorRed,
+    backgroundColor: 'transparent',
     color: themeColors.theme.colors.white,
     fontWeight: 700,
     fontFamily: 'Roboto',
     fontSize: 20,
     minWidth: '100px',
-    boxShadow:
-      'inset -5px -5px 9px black, inset 5px 5px 9px rgba(94,104,121,0.3)',
-    borderRadius: 10,
-    '&:hover': {
-      backgroundColor: themeColors.theme.colors.colorRed,
-      boxShadow:
-        ' inset -5px -5px 9px rgba(94,104,121,0.3), inset 5px 5px 9px black',
-      transform: 'translateY(-7px)',
-    },
-    '@media (max-width: 1200px)': {
-      width: '35%',
-      height: 50,
-      backgroundColor: themeColors.theme.colors.colorRed,
-      color: themeColors.theme.colors.white,
-      fontWeight: 700,
-      fontFamily: 'Roboto',
-      fontSize: 12,
-      borderRadius: 10,
-      minWidth: '150px',
-    },
+    boxShadow: '0 0 0 0',
+    border: '1px solid red ',
   },
 }));
 
