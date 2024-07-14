@@ -8,16 +8,16 @@ import com.rba.selection.card.manager.domain.dto.CardDto;
 import com.rba.selection.card.manager.domain.dto.PersonDto;
 import com.rba.selection.card.manager.repository.CardRepository;
 import com.rba.selection.card.manager.repository.PersonRepository;
-import com.rba.selection.card.manager.service.exception.DeleteFailureException;
 import com.rba.selection.card.manager.service.exception.NoSuchElementException;
 import com.rba.selection.card.manager.service.exception.PostFailureException;
 import com.rba.selection.card.manager.service.mapper.CardMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Random;
@@ -31,12 +31,18 @@ public class CardService {
 
     private final PersonRepository personRepository;
 
+    private final RestTemplate restTemplate;
+
     private final CardMapper mapper;
 
+    @Value("${issuing.uri}")
+    private String url;
 
-    public CardService(CardRepository cardRepository, PersonRepository personRepository, CardMapper mapper) {
+
+    public CardService(CardRepository cardRepository, PersonRepository personRepository, RestTemplate restTemplate, CardMapper mapper) {
         this.cardRepository = cardRepository;
         this.personRepository = personRepository;
+        this.restTemplate = restTemplate;
         this.mapper = mapper;
     }
 
@@ -86,6 +92,31 @@ public class CardService {
             Person cardOwner = card.getPerson();
             CardCreationDto cardForCreationDto = mapper.toCardCreationDto(card);
             log.info("Sending card : "+ cardForCreationDto.toString());
+            sendCardToIssuingServer(cardForCreationDto);
         }
     }
+
+    private void sendCardToIssuingServer(CardCreationDto cardForCreationDto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String fullUrl = url+"/card";
+        HttpEntity<CardCreationDto> requestEntity = new HttpEntity<>(cardForCreationDto, headers);
+        log.info(fullUrl);
+        ResponseEntity<CardCreationDto> response = restTemplate.exchange(
+                fullUrl,
+                HttpMethod.POST,
+                requestEntity,
+                CardCreationDto.class);
+
+        // Handle response if needed
+        HttpStatusCode statusCode = response.getStatusCode();
+        if (statusCode == HttpStatus.CREATED) {
+            CardCreationDto responseBody = response.getBody();
+            System.out.println("Response: " + responseBody.toString());
+        } else {
+            System.err.println("POST request failed with status: " + statusCode);
+        }
+    }
+
+
 }

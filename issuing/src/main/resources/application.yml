@@ -1,7 +1,7 @@
 server:
-  port: 8085
+  port: 8086
   servlet:
-    context-path: /manager/api
+    context-path: /issuing/api
   tomcat:
     accesslog:
       enabled: true
@@ -33,11 +33,11 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5440/postgres
+    url: jdbc:postgresql://localhost:5441/postgres
     username: postgres
     password: postgres
     hikari:
-      schema: manager
+      schema: issuing
       maximum-pool-size: 10
       connection-timeout: 5000
   flyway:
@@ -64,5 +64,3 @@ manager:
   refTokDuration: 360000
   jwtSecret: 9a4fu2c03d3b7a1e6f14c8a0b3f267d8b1d4e97f3c8a9d2b5f8e3a9c8b5f6v8a3d99a4fu2c03d3b7a1e6f14c8a0b3f267d8b1d4e97f3c8a9d2b5f8e3a9c8b5f6v8a3d9
   jwtExpiration: 600000
-issuing:
-  uri: http://localhost:8086/issuing/api
