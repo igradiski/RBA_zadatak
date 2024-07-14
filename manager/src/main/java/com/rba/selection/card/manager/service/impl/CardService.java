@@ -3,6 +3,7 @@ package com.rba.selection.card.manager.service.impl;
 import com.rba.selection.card.manager.domain.Card;
 import com.rba.selection.card.manager.domain.EStatus;
 import com.rba.selection.card.manager.domain.Person;
+import com.rba.selection.card.manager.domain.dto.CardCreationDto;
 import com.rba.selection.card.manager.domain.dto.CardDto;
 import com.rba.selection.card.manager.domain.dto.PersonDto;
 import com.rba.selection.card.manager.repository.CardRepository;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 @Component
@@ -72,5 +74,18 @@ public class CardService {
         }
 
         return stringBuilder.toString();
+    }
+
+    @Transactional(readOnly = true)
+    public void sendCardsToCreation() {
+
+        List<Card> cardsForCreation = cardRepository.findCardsByStatus(EStatus.SUBMITTED.name());
+        log.info("Scheduled creation for: "+ cardsForCreation.size() +" cards");
+        for(Card card : cardsForCreation){
+            log.info("Sendind card with card number: "+card.getCardNumber()+" to production");
+            Person cardOwner = card.getPerson();
+            CardCreationDto cardForCreationDto = mapper.toCardCreationDto(card);
+            log.info("Sending card : "+ cardForCreationDto.toString());
+        }
     }
 }

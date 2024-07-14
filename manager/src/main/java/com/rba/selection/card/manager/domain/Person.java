@@ -32,8 +32,6 @@ public class Person {
 
     private String OIB;
 
-    private String status;
-
     @CreatedDate
     private Instant createdDate;
 
