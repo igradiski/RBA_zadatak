@@ -71,6 +71,19 @@
       "name":"Ime",
       "lastName":"Prezime",
       "OIB":"OIB",
-      "status":"Status"
+      "status":"Status",
+      "createCard":"Kreiraj karticu",
+      "modal":{
+         "sucessTitle":"Brisanje uspješno",
+         "successContent": "Osoba je uspješno obrisana!",
+         "errorTitle":"Greška kod brisanja",
+         "errorContent":"Osobu nije moguće obrisati!"
+      },
+      "modalCard":{
+         "sucessTitle":"Kreiranje kartice uspješno",
+         "successContent": "Kartica je uspješno kreirana",
+         "errorTitle":"Greška kod kreiranja kartice",
+         "errorContent":"Nije moguće kreirati karticu osobe!"
+      }
    }
 }

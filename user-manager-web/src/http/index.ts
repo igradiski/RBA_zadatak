@@ -1,3 +1,4 @@
 import * as UserService from './user';
 import * as PersonService from './person';
-export { UserService, PersonService };
+import * as CardService from './card';
+export { UserService, PersonService, CardService };

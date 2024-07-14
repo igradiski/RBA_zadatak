@@ -1,5 +1,7 @@
 package com.rba.selection.card.manager.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,30 +11,28 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.Set;
 
 @Entity
-@Table(name="PERSON")
+@Table(name="CARD")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Setter
-public class Person {
+public class Card {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_PERSON")
-    @SequenceGenerator(name="SEQ_PERSON",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_CARD")
+    @SequenceGenerator(name="SEQ_CARD",allocationSize = 1)
     private Long id;
 
-    private String name;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="PERSON_ID")
+    @JsonBackReference
+    private Person person;
 
-    private String lastName;
-
-    private String OIB;
-
-    private String status;
+    private String cardNumber;
 
     @CreatedDate
     private Instant createdDate;
@@ -41,8 +41,5 @@ public class Person {
     @Column(name = "updated_date")
     private Instant updatedDate;
 
-    @OneToMany(mappedBy = "person", orphanRemoval = true)
-    private Set<Card> cards;
-
-
+    private String status;
 }

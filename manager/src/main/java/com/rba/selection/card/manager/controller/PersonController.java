@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/person")
 public class PersonController {
 
-    private Logger log = LoggerFactory.getLogger(AuthController.class);
+    private Logger log = LoggerFactory.getLogger(PersonController.class);
 
     private final PersonService personService;
 

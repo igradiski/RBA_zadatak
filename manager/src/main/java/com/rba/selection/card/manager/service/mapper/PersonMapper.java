@@ -1,9 +1,12 @@
 package com.rba.selection.card.manager.service.mapper;
 
 
+import com.rba.selection.card.manager.domain.Card;
 import com.rba.selection.card.manager.domain.Person;
 import com.rba.selection.card.manager.domain.dto.PersonDto;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class PersonMapper {
@@ -17,8 +20,11 @@ public class PersonMapper {
     }
 
     public PersonDto toDto(Person savedPerson) {
-
-        PersonDto dto = new PersonDto(savedPerson.getId(),savedPerson.getName(),savedPerson.getLastName(),savedPerson.getOIB(),savedPerson.getStatus());
+        String status = savedPerson.getCards().stream()
+                .findFirst()
+                .map(Card::getStatus)
+                .orElse("");
+        PersonDto dto = new PersonDto(savedPerson.getId(),savedPerson.getName(),savedPerson.getLastName(),savedPerson.getOIB(),status);
         return dto;
     }
 }

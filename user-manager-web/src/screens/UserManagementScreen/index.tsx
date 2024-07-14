@@ -8,7 +8,11 @@ import { CustomCellType } from '../../types/CustomCellType';
 import { CustomButtonConfirm } from '../../components/FormButton';
 import { PersonModal } from './insertModal';
 import { PageableSpring } from '../../types/Pageable';
-import { fetchPersonByOibThunk, fetchPersonsThunk } from '../../store/person';
+import {
+  deletePersonByOibThunk,
+  fetchPersonByOibThunk,
+  fetchPersonsThunk,
+} from '../../store/person';
 import { PersonData } from '../../types/PersonTypes';
 import { useSelector } from 'react-redux';
 import { SpringPageableType } from '../../types/SpringPageableType';
@@ -21,6 +25,7 @@ import { object, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PersonDataComponent } from '../../components/PersonDataComponent';
 import { clearUser } from '../../store/user';
+import { Modal } from 'antd';
 
 export const UserManagementScreen: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -137,7 +142,36 @@ export const UserManagementScreen: FunctionComponent = () => {
     }
   };
 
-  const deletePersonByOib = async () => {};
+  function successModal() {
+    Modal.success({
+      title: t('personDataComponent.modal.sucessTitle'),
+      content: t('personDataComponent.modal.successContent'),
+    });
+  }
+  function errorModal() {
+    Modal.error({
+      title: t('personDataComponent.modal.errorTitle'),
+      content: t('personDataComponent.modal.errorContent'),
+    });
+  }
+  const deletePersonByOib = async () => {
+    var oib = getValues('deleteOib');
+    if (oib !== undefined && oib.length == 11) {
+      await dispatch(deletePersonByOibThunk(oib))
+        .unwrap()
+        .then(res => {
+          successModal();
+        })
+        .catch(error => {
+          errorModal();
+        });
+      var pageable: PageableSpring = {
+        page: page - 1,
+        size: pageSize,
+      };
+      await dispatch(fetchPersonsThunk(pageable));
+    }
+  };
 
   return (
     <div className={classes.mainContainer}>

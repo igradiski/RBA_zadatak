@@ -4,10 +4,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { useNavigate } from 'react-router-dom';
-import { UserData } from '../types/userTypes';
 import { PersonService, UserService } from '../http';
-import { TokenType } from '../types/TokenType';
 import { PersonData } from '../types/PersonTypes';
 import { PageableSpring } from '../types/Pageable';
 import { SpringPageableType } from '../types/SpringPageableType';

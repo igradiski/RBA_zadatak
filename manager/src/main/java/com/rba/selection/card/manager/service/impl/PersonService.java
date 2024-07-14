@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class PersonService {
 
-    private Logger log = LoggerFactory.getLogger(UserService.class);
+    private Logger log = LoggerFactory.getLogger(PersonService.class);
 
     private final PersonRepository personRepository;
 
@@ -61,6 +61,7 @@ public class PersonService {
         return personMapper.toDto(person);
     }
 
+    @Transactional
     public ResponseEntity<Object> deletePersonByOib(String oib) {
         Person person = personRepository.findPersonByOib(oib)
                 .orElseThrow(() -> new DeleteFailureException("Person with oib: "+ oib + " cannot be deleted because it does not exist!"));

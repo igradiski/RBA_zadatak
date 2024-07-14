@@ -15,6 +15,7 @@ import {
 } from 'redux-persist';
 import { userReducer } from './user';
 import { personReducer } from './person';
+import { cardReducer } from './card';
 
 const persistConfig = {
   key: 'root',
@@ -33,6 +34,7 @@ const rootReducer = persistReducer(
   combineReducers({
     user: persistReducer(userPersistConfig, userReducer),
     person: personReducer,
+    card: cardReducer,
   }),
 );
 
