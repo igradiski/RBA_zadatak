@@ -1,6 +1,7 @@
 package com.rba.selection.card.Issuing.controller;
 
 import com.rba.selection.card.Issuing.domain.dto.CardCreationDto;
+import com.rba.selection.card.Issuing.service.impl.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,12 +14,15 @@ public class CardCreationController {
 
     private Logger log = LoggerFactory.getLogger(CardCreationController.class);
 
-    public CardCreationController() {
+    private final CardService cardService;
+
+    public CardCreationController(CardService cardService) {
+        this.cardService = cardService;
     }
 
     @PostMapping
-    public ResponseEntity<CardCreationDto> createCard(@RequestBody CardCreationDto cardCreationDto){
+    public ResponseEntity<String> createCard(@RequestBody CardCreationDto cardCreationDto){
         log.info("received card: "+cardCreationDto.toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body(cardCreationDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cardService.addCard(cardCreationDto));
     }
 }

@@ -102,16 +102,16 @@ public class CardService {
         String fullUrl = url+"/card";
         HttpEntity<CardCreationDto> requestEntity = new HttpEntity<>(cardForCreationDto, headers);
         log.info(fullUrl);
-        ResponseEntity<CardCreationDto> response = restTemplate.exchange(
+        ResponseEntity<String> response = restTemplate.exchange(
                 fullUrl,
                 HttpMethod.POST,
                 requestEntity,
-                CardCreationDto.class);
+                String.class);
 
         // Handle response if needed
         HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.CREATED) {
-            CardCreationDto responseBody = response.getBody();
+            String responseBody = response.getBody();
             System.out.println("Response: " + responseBody.toString());
         } else {
             System.err.println("POST request failed with status: " + statusCode);
