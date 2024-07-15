@@ -28,5 +28,6 @@ public class SchedulerTasks {
     public void sendCardToCreation(){
         LOGGER.info("Scheduler for sending cards to creation");
         cardService.sendCardsToCreation();
+
     }
 }

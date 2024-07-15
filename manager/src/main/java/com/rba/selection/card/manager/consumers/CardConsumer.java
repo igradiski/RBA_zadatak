@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class CardConsumer {
 
@@ -16,8 +18,8 @@ public class CardConsumer {
     }
 
     @KafkaListener(topics = {"card_issuing"}, groupId = "groupId")
-    public void consume(String quote){
-        log.info("received = "+ quote);
+    public void consume(Map<String,String> quote){
+        log.info("received = "+ quote.get("oib")+ " "+ quote.get("status"));
 
     }
 }
