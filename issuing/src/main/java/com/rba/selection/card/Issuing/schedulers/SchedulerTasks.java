@@ -1,8 +1,7 @@
-package com.rba.selection.card.manager.schedulers;
+package com.rba.selection.card.Issuing.schedulers;
 
 
-import com.rba.selection.card.manager.service.impl.CardService;
-import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import com.rba.selection.card.Issuing.service.impl.CardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,8 +18,13 @@ public class SchedulerTasks {
         this.cardService = cardService;
     }
 
-    @Scheduled(fixedRate = 5000)
-    @SchedulerLock(name = "cardCreationScheduler", lockAtMostFor = "5m", lockAtLeastFor = "1m")
+    @Scheduled(fixedRate = 3000)
+    public void sendCardToPersonalization(){
+        LOGGER.info("Scheduler for sending cards to creation");
+        cardService.sendCardsToPersonalization();
+    }
+
+    @Scheduled(fixedRate = 2000)
     public void sendCardToCreation(){
         LOGGER.info("Scheduler for sending cards to creation");
         cardService.sendCardsToCreation();

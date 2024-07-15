@@ -9,10 +9,12 @@ import com.rba.selection.card.Issuing.service.exception.PostFailureException;
 import com.rba.selection.card.Issuing.service.mapper.CardMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class CardService {
@@ -23,9 +25,12 @@ public class CardService {
 
     private final CardRepository cardRepository;
 
-    public CardService(CardMapper mapper, CardRepository cardRepository) {
+    private final KafkaTemplate<String,String> template;
+
+    public CardService(CardMapper mapper, CardRepository cardRepository, KafkaTemplate<String, String> template) {
         this.mapper = mapper;
         this.cardRepository = cardRepository;
+        this.template = template;
     }
 
     @Transactional
@@ -41,5 +46,20 @@ public class CardService {
             log.error("Error inserting person");
             throw new PostFailureException("Error inserting person");
         }
+    }
+
+    public void sendCardsToCreation() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = now.format(formatter);
+
+        log.info("creation at {}", timestamp);
+        template.send("card_issuing", "creation at " + timestamp);
+    }
+
+    public void sendCardsToPersonalization() {
+        //template.send("card_issuing","personalization");
+
+
     }
 }

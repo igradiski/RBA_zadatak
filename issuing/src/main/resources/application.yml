@@ -48,6 +48,8 @@ spring:
       # later change to 'validate' (Hibernate only validates whether the tables and columns exist; otherwise, it throws an exception)
       ddl-auto: update
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
 
 swagger:
   title: ^project.name^
