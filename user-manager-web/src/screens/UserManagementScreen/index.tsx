@@ -26,6 +26,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { PersonDataComponent } from '../../components/PersonDataComponent';
 import { clearUser } from '../../store/user';
 import { Modal } from 'antd';
+import axiosInstance from '../../http/axiosInstance';
 
 export const UserManagementScreen: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -121,6 +122,23 @@ export const UserManagementScreen: FunctionComponent = () => {
     searchOib: string().required().min(11).max(11),
     deleteOib: string().required().min(11).max(11),
   });
+
+  useEffect(() => {
+    fetchCardUpdates();
+  }, []);
+
+  const fetchCardUpdates = async () => {
+    try {
+      const response = await axiosInstance.get(
+        '/manager/api/card/subscription',
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching updates:', error);
+      // Retry after a delay if an error occurs
+      setTimeout(fetchCardUpdates, 5000);
+    }
+  };
 
   const {
     control,

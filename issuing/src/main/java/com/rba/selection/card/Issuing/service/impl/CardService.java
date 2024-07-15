@@ -53,18 +53,26 @@ public class CardService {
     }
     @Transactional
     public void sendCardsToCreation() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String timestamp = now.format(formatter);
-
-        //log.info("creation at {}", timestamp);
-        //template.send("card_issuing", "creation at " + timestamp);
+        List<Card> cardsForCreation = cardRepository.findCardsByStatus(EStatus.PERSONALIZED.name());
+        for(Card card : cardsForCreation){
+            card.setStatus(EStatus.CREATED.name());
+            try{
+                Card savedCard = cardRepository.save(card);
+                Map<String,String> cardData = new HashMap<>();
+                cardData.put("oib",savedCard.getOIB());
+                cardData.put("status",savedCard.getStatus());
+                template.send("card_issuing",cardData);
+            }catch (Exception e){
+                log.error("Error sending created card data");
+                throw new PostFailureException("Error sending created card data");
+            }
+        }
     }
 
     @Transactional
     public void sendCardsToPersonalization() {
-        List<Card> cardForPersonalization = cardRepository.findCardsByStatus(EStatus.RECEIVED_FOR_CREATION.name());
-        for(Card card : cardForPersonalization){
+        List<Card> cardsForPersonalization = cardRepository.findCardsByStatus(EStatus.RECEIVED_FOR_CREATION.name());
+        for(Card card : cardsForPersonalization){
             card.setStatus(EStatus.RECEIVED_FOR_CREATION.name());
             try{
                 Card savedCard = cardRepository.save(card);
@@ -73,8 +81,8 @@ public class CardService {
                 cardData.put("status",savedCard.getStatus());
                 template.send("card_issuing",cardData);
             }catch (Exception e){
-                log.error("Error sendind card data");
-                throw new PostFailureException("Error sendind card data");
+                log.error("Error sending personalized card data");
+                throw new PostFailureException("Error sending personalized card data");
             }
         }
     }

@@ -15,7 +15,8 @@ public class CardMapper {
     }
 
     public CardDto toDto(Card card) {
-        return null;
+        CardDto cardDto = new CardDto(card.getId(),card.getCardNumber(),card.getStatus());
+        return cardDto;
     }
 
     public CardCreationDto toCardCreationDto(Card card) {

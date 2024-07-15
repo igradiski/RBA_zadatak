@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Component
@@ -34,6 +35,8 @@ public class CardService {
     private final RestTemplate restTemplate;
 
     private final CardMapper mapper;
+
+
 
     @Value("${issuing.uri}")
     private String url;
@@ -89,7 +92,6 @@ public class CardService {
         log.info("Scheduled creation for: "+ cardsForCreation.size() +" cards");
         for(Card card : cardsForCreation){
             log.info("Sendind card with card number: "+card.getCardNumber()+" to production");
-            Person cardOwner = card.getPerson();
             CardCreationDto cardForCreationDto = mapper.toCardCreationDto(card);
             log.info("Sending card : "+ cardForCreationDto.toString());
             sendCardToIssuingServer(cardForCreationDto);
@@ -115,6 +117,23 @@ public class CardService {
             System.out.println("Response: " + responseBody.toString());
         } else {
             System.err.println("POST request failed with status: " + statusCode);
+        }
+    }
+
+
+    @Transactional
+    public void changeCardStatus(Map<String, String> cardDataMap) {
+        String oib = cardDataMap.get("oib");
+        String status = cardDataMap.get("status");
+        Person person = personRepository.findPersonByOib(oib)
+                .orElseThrow(() -> new NoSuchElementException("Person with oib: "+ oib + " does not exist!"));
+        Card personsCard = person.getCards().iterator().next();
+        personsCard.setStatus(status);
+        try{
+            cardRepository.save(personsCard);
+        }catch (Exception e){
+            log.error("Error updating card");
+            throw new PostFailureException("Error updating card");
         }
     }
 
