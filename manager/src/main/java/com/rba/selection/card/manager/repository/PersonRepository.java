@@ -15,4 +15,6 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
 
     @Query(value = "SELECT p FROM Person p WHERE p.OIB = ?1")
     Optional<Person> findPersonByOib(String oib);
+
+    Person findPersonByOIB(String oib);
 }

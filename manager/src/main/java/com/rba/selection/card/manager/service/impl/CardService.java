@@ -8,14 +8,19 @@ import com.rba.selection.card.manager.domain.dto.CardDto;
 import com.rba.selection.card.manager.domain.dto.PersonDto;
 import com.rba.selection.card.manager.repository.CardRepository;
 import com.rba.selection.card.manager.repository.PersonRepository;
+import com.rba.selection.card.manager.service.exception.DeleteFailureException;
 import com.rba.selection.card.manager.service.exception.NoSuchElementException;
 import com.rba.selection.card.manager.service.exception.PostFailureException;
 import com.rba.selection.card.manager.service.mapper.CardMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,9 +39,10 @@ public class CardService {
 
     private final RestTemplate restTemplate;
 
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
+
     private final CardMapper mapper;
-
-
 
     @Value("${issuing.uri}")
     private String url;
@@ -98,12 +104,14 @@ public class CardService {
         }
     }
 
-    private void sendCardToIssuingServer(CardCreationDto cardForCreationDto) {
+    @Transactional
+    public void sendCardToIssuingServer(CardCreationDto cardForCreationDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String fullUrl = url+"/card";
         HttpEntity<CardCreationDto> requestEntity = new HttpEntity<>(cardForCreationDto, headers);
         log.info(fullUrl);
+
         ResponseEntity<String> response = restTemplate.exchange(
                 fullUrl,
                 HttpMethod.POST,
@@ -113,8 +121,9 @@ public class CardService {
         // Handle response if needed
         HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.CREATED) {
-            String responseBody = response.getBody();
-            System.out.println("Response: " + responseBody.toString());
+            String cardNum = response.getBody();
+            System.out.println("Card created for num:" + cardNum);
+
         } else {
             System.err.println("POST request failed with status: " + statusCode);
         }
@@ -125,15 +134,17 @@ public class CardService {
     public void changeCardStatus(Map<String, String> cardDataMap) {
         String oib = cardDataMap.get("oib");
         String status = cardDataMap.get("status");
+        log.info("Changing card status for OIB: "+oib +" to status: "+status);
         Person person = personRepository.findPersonByOib(oib)
                 .orElseThrow(() -> new NoSuchElementException("Person with oib: "+ oib + " does not exist!"));
         Card personsCard = person.getCards().iterator().next();
         personsCard.setStatus(status);
-        try{
-            cardRepository.save(personsCard);
-        }catch (Exception e){
-            log.error("Error updating card");
-            throw new PostFailureException("Error updating card");
+        try {
+            cardRepository.saveAndFlush(personsCard);
+            log.info("Card status updated and saved successfully for OIB: {}", oib);
+        } catch (Exception e) {
+            log.error("Error saving card with OIB: {}", oib, e);
+            throw e;
         }
     }
 

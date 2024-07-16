@@ -42,6 +42,8 @@ public class PersonService {
             Person savedPerson = personRepository.save(person);
             return ResponseEntity.status(HttpStatus.CREATED).body(personMapper.toDto(savedPerson));
         }catch (Exception e){
+            log.error(e.getStackTrace().toString());
+            log.error(e.getMessage());
             log.error("Error inserting person");
             throw new PostFailureException("Error inserting person");
         }

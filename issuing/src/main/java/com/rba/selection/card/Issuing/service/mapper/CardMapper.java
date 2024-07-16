@@ -19,6 +19,7 @@ public class CardMapper {
         card.setOIB(dto.OIB());
         card.setStatus(EStatus.RECEIVED_FOR_CREATION.name());
         card.setCardNumber(dto.cardNumber());
+        card.setInProduction(Boolean.FALSE);
         return card;
     }
 }

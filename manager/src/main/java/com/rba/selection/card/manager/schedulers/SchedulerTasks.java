@@ -19,8 +19,8 @@ public class SchedulerTasks {
         this.cardService = cardService;
     }
 
-    @Scheduled(fixedRate = 5000)
-    @SchedulerLock(name = "cardCreationScheduler", lockAtMostFor = "5m", lockAtLeastFor = "1m")
+    @Scheduled(fixedRate = 15000)
+    //@SchedulerLock(name = "cardCreationScheduler", lockAtMostFor = "5m", lockAtLeastFor = "1m")
     public void sendCardToCreation(){
         LOGGER.info("Scheduler for sending cards to creation");
         cardService.sendCardsToCreation();

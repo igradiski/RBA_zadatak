@@ -15,4 +15,7 @@ public interface CardRepository extends JpaRepository<Card,Long> {
 
     @Query(value = "SELECT c from Card c WHERE c.status = ?1")
     List<Card> findCardsByStatus(String receivedForCreation);
+
+    @Query(value = "SELECT c from Card c WHERE c.status = ?1 AND c.inProduction = ?2")
+    List<Card> findCardsByStatusAndProduction(String receivedForCreation,Boolean inProduction);
 }

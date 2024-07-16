@@ -6,6 +6,7 @@ import com.rba.selection.card.manager.domain.Person;
 import com.rba.selection.card.manager.domain.dto.PersonDto;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Component
@@ -15,7 +16,7 @@ public class PersonMapper {
         person.setName(personDto.name());
         person.setLastName(personDto.lastName());
         person.setOIB(personDto.OIB());
-
+        person.setCards(new HashSet<>());
         return person;
     }
 

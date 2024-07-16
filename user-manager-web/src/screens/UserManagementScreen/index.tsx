@@ -123,23 +123,6 @@ export const UserManagementScreen: FunctionComponent = () => {
     deleteOib: string().required().min(11).max(11),
   });
 
-  useEffect(() => {
-    fetchCardUpdates();
-  }, []);
-
-  const fetchCardUpdates = async () => {
-    try {
-      const response = await axiosInstance.get(
-        '/manager/api/card/subscription',
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error fetching updates:', error);
-      // Retry after a delay if an error occurs
-      setTimeout(fetchCardUpdates, 5000);
-    }
-  };
-
   const {
     control,
     handleSubmit,

@@ -44,8 +44,8 @@ public class CardService {
         }
         try{
             Card card = mapper.toEntity(cardCreationDto);
-            cardRepository.save(card);
-            return "Card is created";
+            Card savedCard = cardRepository.save(card);
+            return savedCard.getCardNumber();
         }catch (Exception e){
             log.error("Error inserting person");
             throw new PostFailureException("Error inserting person");
@@ -71,14 +71,33 @@ public class CardService {
 
     @Transactional
     public void sendCardsToPersonalization() {
-        List<Card> cardsForPersonalization = cardRepository.findCardsByStatus(EStatus.RECEIVED_FOR_CREATION.name());
+        List<Card> cardsForPersonalization = cardRepository.findCardsByStatusAndProduction(EStatus.RECEIVED_FOR_CREATION.name(),Boolean.TRUE);
         for(Card card : cardsForPersonalization){
-            card.setStatus(EStatus.RECEIVED_FOR_CREATION.name());
+            card.setStatus(EStatus.PERSONALIZED.name());
             try{
                 Card savedCard = cardRepository.save(card);
                 Map<String,String> cardData = new HashMap<>();
                 cardData.put("oib",savedCard.getOIB());
                 cardData.put("status",savedCard.getStatus());
+                template.send("card_issuing",cardData);
+            }catch (Exception e){
+                log.error("Error sending personalized card data");
+                throw new PostFailureException("Error sending personalized card data");
+            }
+        }
+    }
+
+    @Transactional
+    public void sendCardReceived() {
+        List<Card> cardsReceived = cardRepository.findCardsByStatusAndProduction(EStatus.RECEIVED_FOR_CREATION.name(),Boolean.FALSE);
+        log.info(String.valueOf(cardsReceived.size()));
+        for(Card card : cardsReceived){
+            card.setInProduction(Boolean.TRUE);
+            try{
+                cardRepository.save(card);
+                Map<String,String> cardData = new HashMap<>();
+                cardData.put("oib",card.getOIB());
+                cardData.put("status",card.getStatus());
                 template.send("card_issuing",cardData);
             }catch (Exception e){
                 log.error("Error sending personalized card data");

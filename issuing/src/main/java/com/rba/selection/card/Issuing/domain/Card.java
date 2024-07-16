@@ -30,4 +30,7 @@ public class Card {
     private String cardNumber;
 
     private String status;
+
+    @Column(name = "IN_PRODUCTION", columnDefinition = "BIT")
+    private Boolean inProduction;
 }
