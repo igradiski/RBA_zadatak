@@ -2,7 +2,9 @@
 Selekcijski zadatak
 
 user_manager_web
+
 npm install 
+
 npm start
 
 Kafka:
@@ -18,30 +20,14 @@ docker compose -up na folderu za kreaciju postgres baze
 kreirati schedmu manager na portu: 5440
 kreirati schemu issuing na portu: 5441
 
-Izvrsiti upite po redu
-INSERT INTO manager."role" (id,name) VALUES
-	 (3,'ROLE_ADMIN'),
-	 (2,'ROLE_MODERATOR'),
-	 (1,'ROLE_USER');
-
-Izvrsiti upite po redu
-INSERT INTO manager."role" (id,name) VALUES
-	 (3,'ROLE_ADMIN'),
-	 (2,'ROLE_MODERATOR'),
-	 (1,'ROLE_USER');
-
-
 za schemu manager treba izvrsiti sljedeće upite
 
 
- INSERT INTO manager.user_acc (id,last_login,"password",username,created_date,updated_date) VALUES
- (4,NULL,'$2a$10$P2cQOrVWPfpdac0c.Mxwcudz6GNMeMDHQWiAEwytvRoH0W5gArYNO','admin','2024-07-11 12:01:28.912373+02','2024-07-11 12:01:28.912373+02');
+INSERT INTO manager."role" (id,name) VALUES
+	 (3,'ROLE_ADMIN'),
+	 (2,'ROLE_MODERATOR'),
+	 (1,'ROLE_USER');
 	 
- INSERT INTO manager.user_role (id,datetime,role_id,user_id) VALUES
- (1,'2024-07-11 12:01:28.912',1,4);
-za schemu manager treba izvrsiti sljedeće upite
-
-
  INSERT INTO manager.user_acc (id,last_login,"password",username,created_date,updated_date) VALUES
  (4,NULL,'$2a$10$P2cQOrVWPfpdac0c.Mxwcudz6GNMeMDHQWiAEwytvRoH0W5gArYNO','admin','2024-07-11 12:01:28.912373+02','2024-07-11 12:01:28.912373+02');
 	 
@@ -56,22 +42,6 @@ CREATE TABLE shedlock (
   locked_by VARCHAR(255),
   PRIMARY KEY (name)
 )
-
-Izvrsiti upite po redu
-INSERT INTO manager."role" (id,name) VALUES
-	 (3,'ROLE_ADMIN'),
-	 (2,'ROLE_MODERATOR'),
-	 (1,'ROLE_USER');
-
-
-za schemu manager treba izvrsiti sljedeće upite
-
-
- INSERT INTO manager.user_acc (id,last_login,"password",username,created_date,updated_date) VALUES
- (4,NULL,'$2a$10$P2cQOrVWPfpdac0c.Mxwcudz6GNMeMDHQWiAEwytvRoH0W5gArYNO','admin','2024-07-11 12:01:28.912373+02','2024-07-11 12:01:28.912373+02');
-	 
- INSERT INTO manager.user_role (id,datetime,role_id,user_id) VALUES
- (1,'2024-07-11 12:01:28.912',1,4);
 
 Ostale tablice se kreiraju sa DDL-om
 
