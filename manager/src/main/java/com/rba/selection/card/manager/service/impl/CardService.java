@@ -8,11 +8,9 @@ import com.rba.selection.card.manager.domain.dto.CardDto;
 import com.rba.selection.card.manager.domain.dto.PersonDto;
 import com.rba.selection.card.manager.repository.CardRepository;
 import com.rba.selection.card.manager.repository.PersonRepository;
-import com.rba.selection.card.manager.service.exception.DeleteFailureException;
 import com.rba.selection.card.manager.service.exception.NoSuchElementException;
 import com.rba.selection.card.manager.service.exception.PostFailureException;
 import com.rba.selection.card.manager.service.mapper.CardMapper;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import org.slf4j.Logger;
@@ -20,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -122,10 +119,9 @@ public class CardService {
         HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.CREATED) {
             String cardNum = response.getBody();
-            System.out.println("Card created for num:" + cardNum);
-
+            log.info("Card created for num:" + cardNum);
         } else {
-            System.err.println("POST request failed with status: " + statusCode);
+            log.error("POST request failed with status: " + statusCode);
         }
     }
 
@@ -143,7 +139,7 @@ public class CardService {
             cardRepository.saveAndFlush(personsCard);
             log.info("Card status updated and saved successfully for OIB: {}", oib);
         } catch (Exception e) {
-            log.error("Error saving card with OIB: {}", oib, e);
+            log.error(e.getStackTrace().toString());
             throw e;
         }
     }

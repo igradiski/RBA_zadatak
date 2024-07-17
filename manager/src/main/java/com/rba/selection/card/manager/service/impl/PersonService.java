@@ -33,14 +33,14 @@ public class PersonService {
     }
 
     @Transactional
-    public ResponseEntity<?> addPerson(PersonDto personDto) {
+    public PersonDto addPerson(PersonDto personDto) {
         if(personRepository.existsByOIB(personDto.OIB())){
             throw new ObjectAlreadyExists("User with this username already exists!");
         }
         try{
             Person person = personMapper.toEntity(personDto);
             Person savedPerson = personRepository.save(person);
-            return ResponseEntity.status(HttpStatus.CREATED).body(personMapper.toDto(savedPerson));
+            return personMapper.toDto(savedPerson);
         }catch (Exception e){
             log.error(e.getStackTrace().toString());
             log.error(e.getMessage());

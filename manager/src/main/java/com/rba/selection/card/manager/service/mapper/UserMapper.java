@@ -23,8 +23,7 @@ public class UserMapper {
     }
 
 
-    public Object toDto(User savedUser) {
-        UserDto dto = new UserDto(savedUser.getUsername(),savedUser.getPassword());
-        return dto;
+    public UserDto toDto(User savedUser) {
+        return new UserDto(savedUser.getUsername(),savedUser.getPassword());
     }
 }

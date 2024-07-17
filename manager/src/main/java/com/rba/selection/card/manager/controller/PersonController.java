@@ -24,7 +24,7 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createPerson(@RequestBody PersonDto personDto){
+    public ResponseEntity<PersonDto> createPerson(@RequestBody PersonDto personDto){
         log.info("Creating person: "+personDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(personService.addPerson(personDto));
     }

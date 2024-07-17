@@ -9,24 +9,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class CardMapper {
 
-    public Card toEntity(CardDto cardDto){
-
-        return null;
-    }
-
     public CardDto toDto(Card card) {
-        CardDto cardDto = new CardDto(card.getId(),card.getCardNumber(),card.getStatus());
-        return cardDto;
+        return new CardDto(card.getId(),card.getCardNumber(),card.getStatus());
     }
 
     public CardCreationDto toCardCreationDto(Card card) {
         Person cardOwner = card.getPerson();
-        CardCreationDto cardForCreationDto = new CardCreationDto(
+        return new CardCreationDto(
                 cardOwner.getName(),
                 cardOwner.getLastName(),
                 cardOwner.getOIB(),
                 card.getStatus(),
                 card.getCardNumber());
-        return cardForCreationDto;
     }
 }

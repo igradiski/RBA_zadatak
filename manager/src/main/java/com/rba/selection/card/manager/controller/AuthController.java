@@ -20,7 +20,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/echo")
-	public ResponseEntity<?> echo() {
+	public ResponseEntity<String> echo() {
 
 		log.info("Echo test request");
 		return ResponseEntity.status(HttpStatus.OK).body("API radi!");
@@ -28,7 +28,7 @@ public class AuthController {
 
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
 
 		log.info("User register request");
 		return userService.registerUser(userDto);

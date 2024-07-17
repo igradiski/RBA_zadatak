@@ -1,7 +1,6 @@
 package com.rba.selection.card.manager.repository;
 
 import com.rba.selection.card.manager.domain.Card;
-import com.rba.selection.card.manager.domain.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

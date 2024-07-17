@@ -1,6 +1,5 @@
 package com.rba.selection.card.manager.service.impl;
 
-import com.rba.selection.card.manager.domain.Person;
 import com.rba.selection.card.manager.domain.RefreshToken;
 import com.rba.selection.card.manager.domain.User;
 import com.rba.selection.card.manager.domain.dto.UserDto;
@@ -50,7 +49,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<?> registerUser(UserDto userDto) {
+    public ResponseEntity<UserDto> registerUser(UserDto userDto) {
         if (userRepository.existsByUsername(userDto.username())) {
             throw new ObjectAlreadyExists("User with this username already exists!");
         }
