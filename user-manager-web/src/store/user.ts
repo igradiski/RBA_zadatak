@@ -3,53 +3,53 @@ import {
   createAsyncThunk,
   createSlice,
   PayloadAction,
-} from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
-import { UserData } from "../types/userTypes";
-import { UserService } from "../http";
-import { TokenType } from "../types/TokenType";
+} from '@reduxjs/toolkit';
+import { UserData } from '../types/userTypes';
+import { UserService } from '../http';
+import { TokenType } from '../types/TokenType';
+
 const initialState = {
   data: {
-    email: "",
-    refreshToken: "",
+    email: '',
+    refreshToken: '',
     role: [],
-    accessToken: "",
-    userName: "",
+    accessToken: '',
+    userName: '',
   },
   authenticated: false,
 };
 
 export const handleUserLogin = createAsyncThunk(
-  "user/login",
+  'user/login',
   async (data: UserData) => {
     return UserService.loginUser(data);
-  }
+  },
 );
 
 export const handleRegisterUser = createAsyncThunk(
-  "user/register",
+  'user/register',
   async (data: UserData) => {
     await UserService.registerUser(data);
-  }
+  },
 );
 
 export const handleTokenRefresh = createAsyncThunk(
-  "user/refresh",
+  'user/refresh',
   async (refreshToken: string) => {
     const tokens: TokenType = await UserService.reissueTokens(refreshToken);
     return tokens;
-  }
+  },
 );
 
 export const clearAuthenticationState = createAsyncThunk(
-  "jwt/clearAuthenticationState",
+  'jwt/clearAuthenticationState',
   async (args, { dispatch }) => {
     dispatch(clearUser());
-  }
+  },
 );
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: initialState,
   reducers: {
     clearUser: () => {
@@ -57,8 +57,6 @@ const userSlice = createSlice({
     },
     saveTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
-      console.log(refreshToken);
-      console.log(accessToken);
       state.data.accessToken = accessToken;
       state.data.refreshToken = refreshToken;
       return state;
@@ -73,14 +71,14 @@ const userSlice = createSlice({
           data: action.payload,
           authenticated: true,
         };
-      }
+      },
     );
-    builder.addCase(handleUserLogin.pending, (state) => {
+    builder.addCase(handleUserLogin.pending, state => {
       return {
         authenticated: false,
       };
     });
-    builder.addCase(handleUserLogin.rejected, (state) => {
+    builder.addCase(handleUserLogin.rejected, state => {
       return {
         authenticated: false,
       };

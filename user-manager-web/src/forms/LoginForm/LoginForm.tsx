@@ -54,7 +54,6 @@ export const LoginForm: FunctionComponent = () => {
         navigate('/userManagement');
       })
       .catch((reason: any) => {
-        console.log(reason);
         errorModal();
       });
   };

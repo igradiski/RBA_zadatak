@@ -25,13 +25,13 @@ public class SchedulerTasks {
         cardService.sendCardReceived();
     }
 
-    @Scheduled(fixedRate = 25000)
+    @Scheduled(fixedRate = 40000)
     public void sendCardToPersonalization(){
         LOGGER.info("Scheduler for sending cards to creation");
         cardService.sendCardsToPersonalization();
     }
 
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRate = 60000)
     public void sendCardToCreation(){
         LOGGER.info("Scheduler for sending cards to creation");
         cardService.sendCardsToCreation();

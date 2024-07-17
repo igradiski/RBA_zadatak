@@ -56,7 +56,7 @@
          "OIB":"OIB",
          "status":"status",
          "insertErrorTitle":"Greška kod unosa osobe",
-         "insertErrorContent":"Nije moguće unijeti osobu prema s željenim podacima",
+         "insertErrorContent":"Nije moguće unijeti osobu s željenim podacima",
          "insertSuccessfullTitle":"Usoba unesena",
          "insertSuccessfullContent":"Osoba je uspješno unesena!",
          "deletePersonModalTitle":"Brisanje sobe",

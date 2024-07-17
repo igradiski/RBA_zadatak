@@ -4,13 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Modal } from 'antd';
 import { FunctionComponent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { CustomInput } from '../../components/Input';
 import { CustomButtonConfirm } from '../../components/FormButton';
-import themeColors from '../../theme';
-import React from 'react';
 import { PersonData } from '../../types/PersonTypes';
 import { addPersonThunk } from '../../store/person';
 
@@ -24,7 +21,6 @@ export const PersonModal: FunctionComponent<Props> = ({
   onCancel,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { classes } = useStyles();
 
@@ -52,14 +48,12 @@ export const PersonModal: FunctionComponent<Props> = ({
     resolver: yupResolver(personSchema),
   });
 
-  //todo
   function errorModal() {
     Modal.error({
       title: t('userManagementScreen.modal.insertErrorTitle'),
       content: t('userManagementScreen.modal.insertErrorContent'),
     });
   }
-  //todo
   function successModal() {
     Modal.success({
       title: t('userManagementScreen.modal.insertSuccessfullTitle'),
@@ -76,15 +70,20 @@ export const PersonModal: FunctionComponent<Props> = ({
         reset();
       })
       .catch((reason: any) => {
-        console.log(reason);
         errorModal();
       });
   };
   return (
     <Modal
       open={visible}
-      onClose={onCancel}
-      onCancel={onCancel}
+      onClose={() => {
+        reset();
+        onCancel();
+      }}
+      onCancel={() => {
+        reset();
+        onCancel();
+      }}
       footer={null}
       style={{ borderRadius: 0, padding: 0 }}
       classNames={{

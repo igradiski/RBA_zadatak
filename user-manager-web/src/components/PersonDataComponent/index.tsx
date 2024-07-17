@@ -18,9 +18,7 @@ export const PersonDataComponent = (props: InputProps) => {
   const { classes } = useStyles();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    console.log('re render');
-  }, [props.person]);
+  useEffect(() => {}, [props.person]);
 
   function successModal() {
     Modal.success({
@@ -36,7 +34,6 @@ export const PersonDataComponent = (props: InputProps) => {
   }
 
   const createPersonCard = async () => {
-    console.log(props.person);
     if (props.person) {
       await dispatch(addCardThunk(props.person))
         .unwrap()
@@ -46,7 +43,6 @@ export const PersonDataComponent = (props: InputProps) => {
           successModal();
         })
         .catch((reason: any) => {
-          console.log(reason);
           errorModal();
         });
     } else {

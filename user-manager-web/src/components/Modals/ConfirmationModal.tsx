@@ -1,7 +1,5 @@
-import { Modal, Button } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
-import { FunctionComponent, useState, useEffect } from 'react';
-import { createStyles } from '@mantine/core';
+import { Modal, Button, createStyles } from '@mantine/core';
+import { FunctionComponent } from 'react';
 import themeColors from '../../theme';
 
 type Props = {

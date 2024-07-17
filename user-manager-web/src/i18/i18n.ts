@@ -33,15 +33,3 @@ const dateFormats = {
 const locales = {
   hr: locale_hr,
 };
-
-/* export const getDateFormat = () => {
-    return (dateFormats[i18n.language || fallbackLng] || dateFormats[fallbackLng]).date;
-};
-
-export const getDateTimeFormat = () => {
-    return (dateFormats[i18n.language || fallbackLng] || dateFormats[fallbackLng]).dateTime;
-};
-
-export const getLocale = () => {
-    return locales[i18n.language || fallbackLng] || locales[fallbackLng];
-}; */

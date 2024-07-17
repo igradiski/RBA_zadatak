@@ -11,7 +11,7 @@ import { CustomInput } from '../../components/Input';
 import { CustomPasswordInput } from '../../components/PasswordInput';
 import { CustomButtonConfirm } from '../../components/FormButton';
 import { UserData } from '../../types/userTypes';
-import { handleRegisterUser, handleUserLogin } from '../../store/user';
+import { handleRegisterUser } from '../../store/user';
 
 export const RegisterForm: FunctionComponent = () => {
   const { t } = useTranslation();

@@ -2,12 +2,9 @@ import {
   ActionReducerMapBuilder,
   createAsyncThunk,
   createSlice,
-  PayloadAction,
 } from '@reduxjs/toolkit';
-import { CardService, PersonService, UserService } from '../http';
+import { CardService } from '../http';
 import { PersonData } from '../types/PersonTypes';
-import { PageableSpring } from '../types/Pageable';
-import { SpringPageableType } from '../types/SpringPageableType';
 
 const initialState = {};
 
@@ -18,7 +15,7 @@ export const addCardThunk = createAsyncThunk(
   },
 );
 const cardSlice = createSlice({
-  name: 'user',
+  name: 'card',
   initialState: initialState,
   reducers: {},
   extraReducers: (builder: ActionReducerMapBuilder<{}>) => {},

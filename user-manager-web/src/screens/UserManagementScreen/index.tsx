@@ -26,7 +26,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { PersonDataComponent } from '../../components/PersonDataComponent';
 import { clearUser } from '../../store/user';
 import { Modal } from 'antd';
-import axiosInstance from '../../http/axiosInstance';
 
 export const UserManagementScreen: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -40,9 +39,6 @@ export const UserManagementScreen: FunctionComponent = () => {
 
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
-
-  const [searchOib, setSearchOib] = useState('');
-  const [deleteOib, setDeleteOib] = useState('');
 
   useEffect(() => {
     var pageable: PageableSpring = {
@@ -123,13 +119,7 @@ export const UserManagementScreen: FunctionComponent = () => {
     deleteOib: string().required().min(11).max(11),
   });
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    getValues,
-    formState: { isValid },
-  } = useForm({
+  const { control, reset, getValues } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: defaultValues,
@@ -138,7 +128,7 @@ export const UserManagementScreen: FunctionComponent = () => {
 
   const searchPersonByOib = async () => {
     var oib = getValues('searchOib');
-    if (oib !== undefined && oib.length == 11) {
+    if (oib !== undefined && oib.length === 11) {
       await dispatch(fetchPersonByOibThunk(oib));
     }
   };
@@ -157,20 +147,23 @@ export const UserManagementScreen: FunctionComponent = () => {
   }
   const deletePersonByOib = async () => {
     var oib = getValues('deleteOib');
-    if (oib !== undefined && oib.length == 11) {
+    if (oib !== undefined && oib.length === 11) {
       await dispatch(deletePersonByOibThunk(oib))
         .unwrap()
         .then(res => {
           successModal();
+          reset();
         })
         .catch(error => {
           errorModal();
         });
       var pageable: PageableSpring = {
-        page: page - 1,
+        page: 0,
         size: pageSize,
       };
+      setPage(0);
       await dispatch(fetchPersonsThunk(pageable));
+      setConfirmationModalVisible(false);
     }
   };
 
@@ -283,7 +276,7 @@ export const UserManagementScreen: FunctionComponent = () => {
               styleValid={classes.buttonStyleSearchDelete}
               isValid={true}
               submit={() => {
-                deletePersonByOib();
+                setConfirmationModalVisible(true);
               }}
             />
           </div>
@@ -293,7 +286,7 @@ export const UserManagementScreen: FunctionComponent = () => {
         content={t('userManagementScreen.modal.deletePersonModalContent')}
         onCancel={closeConfirmationModal}
         id={deleteId}
-        onOk={deleteDataById}
+        onOk={deletePersonByOib}
         title={t('userManagementScreen.modal.deletePersonModalTitle')}
         okText={t('common.modal.yes')}
         cancelText={t('common.modal.no')}
