@@ -1,0 +1,20 @@
+package com.rba.selection.card.ssuing.repository;
+
+import com.rba.selection.card.ssuing.domain.Card;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface CardRepository extends JpaRepository<Card,Long> {
+
+    boolean existsByOIB(String oib);
+
+    @Query(value = "SELECT c from Card c WHERE c.status = ?1")
+    List<Card> findCardsByStatus(String receivedForCreation);
+
+    @Query(value = "SELECT c from Card c WHERE c.status = ?1 AND c.inProduction = ?2")
+    List<Card> findCardsByStatusAndProduction(String receivedForCreation,Boolean inProduction);
+}
