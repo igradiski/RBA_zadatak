@@ -11,8 +11,6 @@ import com.rba.selection.card.manager.repository.PersonRepository;
 import com.rba.selection.card.manager.service.exception.NoSuchElementException;
 import com.rba.selection.card.manager.service.exception.PostFailureException;
 import com.rba.selection.card.manager.service.mapper.CardMapper;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,9 +34,6 @@ public class CardService {
 
     private final RestTemplate restTemplate;
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
     private final CardMapper mapper;
 
     @Value("${issuing.uri}")
@@ -59,7 +54,7 @@ public class CardService {
         if(!person.getCards().isEmpty()){
             throw new PostFailureException("Person with oib: "+ personDto.OIB() + " already owns a card!");
         }
-        Card card =  new Card();
+        Card card = new Card();
         card.setPerson(person);
         card.setCardNumber(generateRandom14LetterString());
         card.setStatus(EStatus.SUBMITTED.name());
@@ -78,13 +73,10 @@ public class CardService {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder(prefix);
-
-        // Generate the remaining 11 characters
         for (int i = 0; i < length - prefix.length(); i++) {
             int index = random.nextInt(characters.length());
             stringBuilder.append(characters.charAt(index));
         }
-
         return stringBuilder.toString();
     }
 
@@ -114,8 +106,6 @@ public class CardService {
                 HttpMethod.POST,
                 requestEntity,
                 String.class);
-
-        // Handle response if needed
         HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.CREATED) {
             String cardNum = response.getBody();
