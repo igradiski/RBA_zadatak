@@ -13,10 +13,21 @@ Kafka:
 
 
 DB
-docker compose -up na folderu za kreaciju postgres baze
+docker compose up na folderu za kreaciju postgres baze
 
 kreirati schedmu manager na portu: 5440
 kreirati schemu issuing na portu: 5441
+
+
+CREATE TABLE shedlock (
+  name VARCHAR(64),
+  lock_until TIMESTAMP(3) NULL,
+  locked_at TIMESTAMP(3) NULL,
+  locked_by VARCHAR(255),
+  PRIMARY KEY (name)
+)
+
+Ostale tablice se kreiraju sa DDL-om
 
 za schemu manager treba izvrsiti sljedeće upite
 
@@ -31,18 +42,6 @@ INSERT INTO manager."role" (id,name) VALUES
 	 
  INSERT INTO manager.user_role (id,datetime,role_id,user_id) VALUES
  (1,'2024-07-11 12:01:28.912',1,4);
-
-
-CREATE TABLE shedlock (
-  name VARCHAR(64),
-  lock_until TIMESTAMP(3) NULL,
-  locked_at TIMESTAMP(3) NULL,
-  locked_by VARCHAR(255),
-  PRIMARY KEY (name)
-)
-
-Ostale tablice se kreiraju sa DDL-om
-
 
 Nakon pokretanja manager i issuing aplikacije, u web se prijavljuje sa podacima 
 username: admin
